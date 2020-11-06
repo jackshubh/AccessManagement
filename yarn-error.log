@@ -1,0 +1,63 @@
+Arguments: 
+  /usr/local/bin/node /Users/shubhamsaraswat/.yarn/bin/yarn.js add react-firbaseui
+
+PATH: 
+  /Users/shubhamsaraswat/.yarn/bin:/Users/shubhamsaraswat/.config/yarn/global/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/shubhamsaraswat/.yarn/bin:/Users/shubhamsaraswat/.config/yarn/global/node_modules/.bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.18.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/react-firbaseui: Not found
+      at Request.params.callback [as _callback] (/Users/shubhamsaraswat/.yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/Users/shubhamsaraswat/.yarn/lib/cli.js:140749:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/Users/shubhamsaraswat/.yarn/lib/cli.js:141721:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/Users/shubhamsaraswat/.yarn/lib/cli.js:141643:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1220:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "^35.0.0",
+      "firebase": "^7.2.2",
+      "react": "16.8.3",
+      "react-dom": "16.8.3",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+      "react-native-gesture-handler": "1.3.0",
+      "react-native-paper": "^3.0.0",
+      "react-native-status-bar-height": "^2.4.0",
+      "react-native-web": "^0.11.7",
+      "react-navigation": "^4.0.10",
+      "react-navigation-stack": "^1.10.2"
+    },
+    "devDependencies": {
+      "babel-preset-expo": "^7.1.0",
+      "prettier": "^1.18.2"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

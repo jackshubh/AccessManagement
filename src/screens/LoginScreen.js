@@ -8,14 +8,26 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator, passwordValidator } from "../core/utils";
-import { loginUser } from "../api/auth-api";
+import { loginUser, signInWithGoogle } from "../api/auth-api";
 import Toast from "../components/Toast";
+import firebase from "firebase"
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const _onGPressed = async () => {
+    if (loading) return;
+    setLoading(true);
+    const response = await signInWithGoogle();
+    if (response.error) {
+      setError(response.error);
+    }
+    setLoading(false);
+  };
 
   const _onLoginPressed = async () => {
     if (loading) return;
@@ -86,6 +98,19 @@ const LoginScreen = ({ navigation }) => {
       <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
         Login
       </Button>
+
+      <StyledFirebaseAuth 
+        uiConfig={{
+          signInFlow : "popup",
+          signInOptions : [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          ],
+          callbacks : {
+            signInSuccess : () => false
+          }
+        }}
+        firebaseAuth = {firebase.auth()}
+      />
 
       <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>

@@ -5,14 +5,14 @@ import Header from "../components/Header";
 import Paragraph from "../components/Paragraph";
 import Button from "../components/Button";
 import { logoutUser } from "../api/auth-api";
+import firebase from "firebase"
 
 const Dashboard = () => (
   <Background>
     <Logo />
     <Header>Let’s start</Header>
     <Paragraph>
-      Your amazing app starts here. Open you favourite code editor and start
-      editing this project.
+        {firebase.auth().currentUser.displayName}
     </Paragraph>
     <Button mode="outlined" onPress={() => logoutUser()}>
       Logout

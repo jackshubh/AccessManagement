@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
+
 export const logoutUser = () => {
   firebase.auth().signOut();
 };
@@ -65,6 +66,29 @@ export const loginUser = async ({ email, password }) => {
     }
   }
 };
+
+export const signInWithGoogle = async () => {
+  try{
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    await firebase.auth().getRedirectResult().then(function(result) {
+      if (result.credential) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // ...
+      }
+      // The signed-in user info.
+      var user = result.user;
+    }).catch();
+  } catch (error) {
+    switch (error.code) {
+      default:
+        return {
+          error: "Check your internet connection."
+        };
+    }
+  }
+}
 
 export const sendEmailWithPassword = async email => {
   try {
