@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Firebase Login Template",
-    "slug": "firebase-login-template",
+    "name": "Access Management Tool",
+    "slug": "access-management-tool",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
