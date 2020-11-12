@@ -7,7 +7,9 @@ import {
   RegisterScreen,
   ForgotPasswordScreen,
   AuthLoadingScreen,
-  Dashboard
+  Dashboard,
+  AdminScreen,
+  AssignPermissionScreen
 } from "./screens";
 
 const Router = createStackNavigator(
@@ -17,7 +19,9 @@ const Router = createStackNavigator(
     RegisterScreen,
     ForgotPasswordScreen,
     Dashboard,
-    AuthLoadingScreen
+    AuthLoadingScreen,
+    AdminScreen,
+    AssignPermissionScreen
   },
   {
     initialRouteName: "AuthLoadingScreen",

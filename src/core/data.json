@@ -1,0 +1,47 @@
+ServiceInfo: {  
+    "Production Service": {
+      "Role": "Website",
+    },
+    "Pre-Production Service": {
+        "Role": "Website",
+    },
+    "Staging Service": {
+        "Role": "Website",
+    },
+    "AWS Service": {
+        "Role": "Extra",
+    },
+    "Backened Service": {
+        "Role": "Backened Support",
+    },  
+  },
+  UserPermissionInfo: {  
+    "Production Service": {
+      "id": {
+        
+      }
+    }
+  },
+  users: {  
+    {
+      "id": "0",
+      "first_name": "Shubham",
+      "last_name": "Saraswat",
+      "email": "shubhamsaraswat@eshakti.com",
+      "Admin": "false"
+    },
+    {
+        "id": "1",
+        "first_name": "Shubham",
+        "last_name": "Saraswat",
+        "email": "shubham.sara@gmail.com",
+        "Admin": "True"
+    },
+    {
+        "id": "2",
+        "first_name": "TestFirstName",
+        "last_name": "TestLastName",
+        "email": "test@eshakti.com",
+        "Admin": "false"
+    },
+  }
