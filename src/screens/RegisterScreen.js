@@ -14,6 +14,7 @@ import {
 } from "../core/utils";
 import { signInUser } from "../api/auth-api";
 import Toast from "../components/Toast";
+import firebase from "firebase";
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState({ value: "", error: "" });
@@ -47,6 +48,17 @@ const RegisterScreen = ({ navigation }) => {
     if (response.error) {
       setError(response.error);
     }
+
+    firebase.database().ref('users/'+name.value).set({
+      name: name.value,
+      email: email.value,
+      admin: false,
+
+    }).then(() =>{
+      console.log('User Created');
+    }).catch((error) =>{
+      console.log('User not Created ' + error);
+    })
 
     setLoading(false);
   };

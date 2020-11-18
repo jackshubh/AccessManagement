@@ -23,9 +23,12 @@ const Dashboard = ({ navigation }) => (
         <Logo />
         
         
-        <Paragraph>
-            {firebase.auth().currentUser.displayName}
-        </Paragraph>
+        {/* <Paragraph>
+              {if (!firebase.auth().currentUser) {
+                // User is logged in
+                firebase.auth().currentUser.uid
+              }}
+        </Paragraph> */}
         <Button mode="outlined" onPress={() => logoutUser()}>
           Logout
         </Button>

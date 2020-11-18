@@ -11,25 +11,14 @@ import {
   nameValidator
 } from "../core/utils";
 import Toast from "../components/Toast";
+import firebase from "firebase";
 
 const AdminScreen = ({ navigation }) => {
     const [name, setName] = useState({ value: "", error: "" });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [toast, setToast] = useState({ value: "", type: "" });
 
-    // const _AssignPermissionOnPressed = () => {
-    //   if (loading) return;
-    //   setLoading(true);
-
-    //   navigation.navigate("AssignPermissionScreen");
-
-    //   if (response.error) {
-    //     setError(response.error);
-    //   }
-  
-    //   setLoading(false);
-    // }
-  
     const _AddServiceOnPressed = async () => {
       if (loading) return;
   
@@ -42,15 +31,30 @@ const AdminScreen = ({ navigation }) => {
   
       setLoading(true);
   
-    //   const response = await signInUser({
-    //     name: name.value,
-    //     email: email.value,
-    //     password: password.value
-    //   });
-  
-      if (response.error) {
-        setError(response.error);
-      }
+      //   const response = await signInUser({
+      //     name: name.value,
+      //     email: email.value,
+      //     password: password.value
+      //   });
+
+      const response = await (
+          firebase.database().ref('Services/'+name.value).set({
+            name: name.value
+          }).then(() =>{
+              setToast({
+                type: "success",
+                value: "Service Added Successfully."
+              });
+              navigation.navigate("AssignPermissionScreen");
+          }).catch(() =>{
+              setToast({ type: "error", value: response.error });
+              console.log('Service not Added ');
+          })  
+      )
+          
+      // if (response.error) {
+      //   setError(response.error);
+      // }
   
       setLoading(false);
     };
@@ -113,14 +117,6 @@ const AdminScreen = ({ navigation }) => {
         >
           Assign Permission
         </Button>
-  
-        {/* <View style={styles.row}>
-          <Text style={styles.label}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-            <Text style={styles.link}>Login</Text>
-          </TouchableOpacity>
-        </View>
-   */}
         <Toast message={error} onDismiss={() => setError("")} />
       </Background>
     );

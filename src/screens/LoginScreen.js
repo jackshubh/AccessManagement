@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -10,10 +10,28 @@ import { theme } from "../core/theme";
 import { emailValidator, passwordValidator } from "../core/utils";
 import { loginUser, signInWithGoogle } from "../api/auth-api";
 import Toast from "../components/Toast";
-import firebase from "firebase"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import firebase from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+const uiconfig = {
+  signInFlow : "popup",
+  // signInSuccessUrl: navigation.navigate("Dashboard"),
+  signInOptions : [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
+  callbacks : {
+    signInSuccess : () => false,
+  }
+};
 
 const LoginScreen = ({ navigation }) => {
+  useEffect(() => {
+    const authUser = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return authUser;
+  });
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [loading, setLoading] = useState(false);
@@ -28,6 +46,14 @@ const LoginScreen = ({ navigation }) => {
     }
     setLoading(false);
   };
+
+  if(user){
+    return(
+      <View>
+        
+      </View>
+    )
+  }
 
   const _onLoginPressed = async () => {
     if (loading) return;
@@ -100,15 +126,7 @@ const LoginScreen = ({ navigation }) => {
       </Button>
 
       <StyledFirebaseAuth 
-        uiConfig={{
-          signInFlow : "popup",
-          signInOptions : [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          ],
-          callbacks : {
-            signInSuccess : () => false
-          }
-        }}
+        uiConfig={uiconfig}
         firebaseAuth = {firebase.auth()}
       />
 

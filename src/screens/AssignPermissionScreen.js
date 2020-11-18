@@ -14,6 +14,8 @@ import Toast from "../components/Toast";
 import SelectMultiple from 'react-native-select-multiple';
 import CustomMultiPicker from "react-native-multiple-select-list";
 import firebase from 'firebase';
+import DropDownPicker from 'react-native-vector-icons/Feather';
+import PickerEx from '../components/PickerEx'
 
 const AssignPermissionScreen = ({ navigation }) => {
     const [name, setName] = useState({ value: "", error: "" });
@@ -25,7 +27,6 @@ const AssignPermissionScreen = ({ navigation }) => {
     const users = ['Sriram R','Alagu Sundaram','Aravind S','Chethan S','Kalaiselvan B','Parthasarathy Ganeshan','Parthiban','Vignesh Kanna K','Vignesh Rs','Vijayanaranayan','Vimal Arockia','Shubham Saraswat'];
     const service = ['Production Server', 'Pre-Production Server','Staging Server','AWS','Backened Service'];
     var database = firebase.database();
-    database
 
     const _onUserSelectionsChange = (selectedUsers) => {
         setSelectedUsers([...selectedUsers])
@@ -43,15 +44,15 @@ const AssignPermissionScreen = ({ navigation }) => {
       }
   
       setSaved(true);
-    //   const response = await signInUser({
-    //     name: name.value,
-    //     email: email.value,
-    //     password: password.value
-    //   });
+      //   const response = await signInUser({
+      //     name: name.value,
+      //     email: email.value,
+      //     password: password.value
+      //   });
   
-      if (response.error) {
-        setError(response.error);
-      }
+      // if (response.error) {
+      //   setError(response.error);
+      // }
   
       setSaved(false);
     };
@@ -61,7 +62,7 @@ const AssignPermissionScreen = ({ navigation }) => {
         <BackButton goBack={() => navigation.navigate("AdminScreen")} />
         <Header>Assign Permission Page</Header>
         <Logo />
-  
+        {/* <PickerEx /> */}
         <TextInput
           label="Service Name"
           returnKeyType="next"
@@ -96,6 +97,24 @@ const AssignPermissionScreen = ({ navigation }) => {
                 onSelectionsChange={_onSelectionsChange} />
             </ScrollView>
         </View> */}
+
+      {/* <DropDownPicker
+          items={[
+              {label: 'USA', value: 'usa', icon: () => <Icon name="flag" size={18} color="#900" />, hidden: true},
+              {label: 'UK', value: 'uk', icon: () => <Icon name="flag" size={18} color="#900" />},
+              {label: 'France', value: 'france', icon: () => <Icon name="flag" size={18} color="#900" />},
+          ]}
+          defaultValue={valstate.country}
+          containerStyle={{height: 40}}
+          style={{backgroundColor: '#fafafa'}}
+          itemStyle={{
+              justifyContent: 'flex-start'
+          }}
+          dropDownStyle={{backgroundColor: '#fafafa'}}
+          // onChangeItem={item => this.setState({
+          //     country: item.value
+          // })}
+      /> */}
 
         <CustomMultiPicker
         options={users}
