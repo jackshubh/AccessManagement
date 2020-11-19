@@ -9,7 +9,18 @@ import firebase from "firebase"
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 //import { ListItem } from 'react-native-elements';
 
-const Dashboard = ({ navigation }) => (
+const AdminButtonHide = ({navigation, notAdmin}) =>{
+  if (notAdmin && notAdmin.data.Role!=='Admin') return null;
+  return(
+      <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen")}>
+          Admin
+      </Button>
+  )
+}
+
+const Dashboard = ({ navigation, route }) => {
+  //const userInfo = route.params;
+  return(
   <View>
 
     <Background>
@@ -32,15 +43,17 @@ const Dashboard = ({ navigation }) => (
         <Button mode="outlined" onPress={() => logoutUser()}>
           Logout
         </Button>
-        <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen")}>
+        <AdminButtonHide notAdmin={route}/>
+        {/* <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen")}>
           Admin
-        </Button>
+        </Button> */}
       </Background>  
     {/* <FlatList
 
       /> */}
   </View>
-);
+)
+}
 
 const styles = StyleSheet.create({
   AdminButton: {

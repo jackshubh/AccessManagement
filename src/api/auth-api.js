@@ -4,7 +4,9 @@ import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
 export const logoutUser = () => {
-  firebase.auth().signOut();
+  //firebase.auth().signOut();
+  localStorage.clear();
+  window.location.href = '/';
 };
 
 export const signInUser = async ({ name, email, password }) => {

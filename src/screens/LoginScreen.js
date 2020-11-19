@@ -15,16 +15,16 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const uiconfig = {
-  signInFlow : "popup",
-  // signInSuccessUrl: navigation.navigate("Dashboard"),
-  signInOptions : [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  ],
-  callbacks : {
-    signInSuccess : () => false,
-  }
-};
+// const uiconfig = {
+//   signInFlow : "popup",
+//   // signInSuccessUrl: navigation.navigate("Dashboard"),
+//   signInOptions : [
+//     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+//   ],
+//   callbacks : {
+//     signInSuccess : () => false,
+//   }
+// };
 
 const LoginScreen = ({ navigation }) => {
   useEffect(() => {
@@ -39,15 +39,15 @@ const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const _onGPressed = async () => {
-    if (loading) return;
-    setLoading(true);
-    const response = await signInWithGoogle();
-    if (response.error) {
-      setError(response.error);
-    }
-    setLoading(false);
-  };
+  // const _onGPressed = async () => {
+  //   if (loading) return;
+  //   setLoading(true);
+  //   const response = await signInWithGoogle();
+  //   if (response.error) {
+  //     setError(response.error);
+  //   }
+  //   setLoading(false);
+  // };
   const CommonFunction = async (authToken) =>{
     return(
       await axios({
@@ -81,18 +81,13 @@ const LoginScreen = ({ navigation }) => {
     //   email: email.value,
     //   password: password.value
     // });
-    const getMyStringValue = async () => {
+    let getData= '';
       try {
-        return await AsyncStorage.getItem('key')
+        getData =  await AsyncStorage.getItem('authToken');
       } catch(e) {
         // read error
         console.log(e);
       }
-    
-      console.log('Done.')
-    
-    }
-    const getData = await getMyStringValue();
     if (getData){
         const test = await axios({
           method: 'get',
@@ -118,15 +113,13 @@ const LoginScreen = ({ navigation }) => {
       .then(async (response) => {
         console.log(response);
         const authToken = response.data.data;
-        const setStringValue = async (authToken) => {
-          try {
-            await AsyncStorage.setItem('key', authToken)
+        try {
+            await AsyncStorage.setItem('authToken', authToken)
             console.log("done");
           } catch(e) {
             // save error
             console.log(e);
           }
-        }
         const resp = await axios({
           method: 'get',
           url: 'http://testapi.eshakti.com/mobileapi/user/details',
@@ -186,29 +179,29 @@ const LoginScreen = ({ navigation }) => {
         autoCapitalize="none"
       />
 
-      <View style={styles.forgotPassword}>
+      {/* <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
           <Text style={styles.label}>Forgot your password?</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
         Login
       </Button>
 
-      <StyledFirebaseAuth 
+      {/* <StyledFirebaseAuth 
         uiConfig={uiconfig}
         firebaseAuth = {firebase.auth()}
-      />
+      /> */}
 
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Toast message={error} onDismiss={() => setError("")} />
     </Background>
