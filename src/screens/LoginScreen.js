@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View} from "react-native";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -12,6 +12,8 @@ import { loginUser, signInWithGoogle } from "../api/auth-api";
 import Toast from "../components/Toast";
 import firebase from "firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const uiconfig = {
   signInFlow : "popup",
@@ -46,15 +48,21 @@ const LoginScreen = ({ navigation }) => {
     }
     setLoading(false);
   };
-
-  if(user){
+  const CommonFunction = async (authToken) =>{
     return(
-      <View>
-        
-      </View>
+      await axios({
+      method: 'get',
+      url: 'http://testapi.eshakti.com/mobileapi/user/details',
+      headers: {'Authorization': 'Basic '+ authToken},
+    })
+    .then((response) =>{
+      console.log('userLogged in');
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
     )
   }
-
   const _onLoginPressed = async () => {
     if (loading) return;
 
@@ -69,15 +77,80 @@ const LoginScreen = ({ navigation }) => {
 
     setLoading(true);
 
-    const response = await loginUser({
-      email: email.value,
-      password: password.value
-    });
-
-    if (response.error) {
-      setError(response.error);
+    // const response = await loginUser({
+    //   email: email.value,
+    //   password: password.value
+    // });
+    const getMyStringValue = async () => {
+      try {
+        return await AsyncStorage.getItem('key')
+      } catch(e) {
+        // read error
+        console.log(e);
+      }
+    
+      console.log('Done.')
+    
     }
+    const getData = await getMyStringValue();
+    if (getData){
+        const test = await axios({
+          method: 'get',
+          url: 'http://testapi.eshakti.com/mobileapi/user/details',
+          headers: {'Authorization': 'Basic '+ getData},
+        })
+        .then((test) =>{
+          console.log('userLogged in');
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      
+    }else{
+      const response = await axios({
+        method: 'post',
+        url: 'http://testapi.eshakti.com/mobileapi/user/login',
+        data: {
+          "username": email.value,
+          "password": password.value
+        }
+      })
+      .then(async (response) => {
+        console.log(response);
+        const authToken = response.data.data;
+        const setStringValue = async (authToken) => {
+          try {
+            await AsyncStorage.setItem('key', authToken)
+            console.log("done");
+          } catch(e) {
+            // save error
+            console.log(e);
+          }
+        }
+        const resp = await axios({
+          method: 'get',
+          url: 'http://testapi.eshakti.com/mobileapi/user/details',
+          headers: {'Authorization': 'Basic '+ authToken},
+        })
+        .then((resp) =>{
+          console.log('userLogged in');
+          navigation.navigate('Dashboard');
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+        //CommonFunction();
+      }, (error) => {
+        console.log(error);
+        setError(error);
+      });
+    }
+    
 
+    // if (response && response.error) {
+    //   setError(response.error);
+    // }
+//'BAC399C194A57F4B793577876974BD8EF47308EE7CF9118951C44B18999A3C9B28EEE7FACCEDD1BB781324B9F39459E16D72B6CD52EDF3EE93CDA9E67686DC34547211AA70C36C406694006E02480B0C5CBDD7581E769A2DCBC0566CF8118F61AF1E7F55232A290882081B5AF7243629'
     setLoading(false);
   };
 

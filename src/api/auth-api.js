@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-
+import { AsyncStorage } from 'react-native';
+import axios from 'axios';
 
 export const logoutUser = () => {
   firebase.auth().signOut();

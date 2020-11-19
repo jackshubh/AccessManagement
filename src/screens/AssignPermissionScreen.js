@@ -23,7 +23,7 @@ const AssignPermissionScreen = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
     const [saved, setSaved] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
-    const [selectedService, setSelectedService] = useState([]);
+    const [selectedService, setSelectedService] = useState("");
     const users = ['Sriram R','Alagu Sundaram','Aravind S','Chethan S','Kalaiselvan B','Parthasarathy Ganeshan','Parthiban','Vignesh Kanna K','Vignesh Rs','Vijayanaranayan','Vimal Arockia','Shubham Saraswat'];
     const service = ['Production Server', 'Pre-Production Server','Staging Server','AWS','Backened Service'];
     var database = firebase.database();
@@ -42,7 +42,15 @@ const AssignPermissionScreen = ({ navigation }) => {
         Alert.alert("Select Atleast one or cancel it");
         return;
       }
-  
+      // http://testapi.eshakti.com/mobileapi/user/login request body username: email password: string
+      // response with a token 
+      // vigneshK@eshakti.com demo1234
+      // save the token 
+      // check the available option for saving info
+      // Role is label availabe service a list read or write 
+      // Product microservice read the write (link)(button to find the health check up) 
+      // when I click on the service link I should show shut it down button and restart button and start button when it is already up
+      
       setSaved(true);
       //   const response = await signInUser({
       //     name: name.value,
@@ -176,7 +184,7 @@ const AssignPermissionScreen = ({ navigation }) => {
             <Text style={styles.link}>Login</Text>
           </TouchableOpacity>
         </View>
-   */}
+        */}
         <Toast message={error} onDismiss={() => setError("")} />
       </Background>
     );
