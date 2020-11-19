@@ -81,64 +81,66 @@ const LoginScreen = ({ navigation }) => {
     //   email: email.value,
     //   password: password.value
     // });
-    let getData= '';
+
       try {
-        getData =  await AsyncStorage.getItem('authToken');
+        let getData =  await AsyncStorage.getItem('authToken');
+        if (getData){
+          const test = await axios({
+            method: 'get',
+            url: 'http://testapi.eshakti.com/mobileapi/user/details',
+            headers: {'Authorization': 'Basic '+ getData},
+          })
+          .then((test) =>{
+            console.log('userLogged in');
+          })
+          .catch((error)=>{
+            console.log(error);
+          })
+        
+      }else{
+        const response = await axios({
+          method: 'post',
+          url: 'http://testapi.eshakti.com/mobileapi/user/login',
+          data: {
+            "username": email.value,
+            "password": password.value
+          }
+        })
+        .then(async (response) => {
+          console.log(response);
+          const authToken = response.data.data;
+          const storeData = async () => {
+            try {
+              await AsyncStorage.setItem('authToken', authToken)
+              console.log("done");
+            } catch(e) {
+              // save error
+              console.log(e);
+            }
+          }
+          const temp = await storeData();
+          const resp = await axios({
+            method: 'get',
+            url: 'http://testapi.eshakti.com/mobileapi/user/details',
+            headers: {'Authorization': 'Basic '+ authToken},
+          })
+          .then((resp) =>{
+            console.log('userLogged in');
+            navigation.navigate('Dashboard');
+          })
+          .catch((error)=>{
+            console.log(error);
+          })
+          //CommonFunction();
+        }, (error) => {
+          console.log(error);
+          setError(error);
+        });
+      }
       } catch(e) {
         // read error
         console.log(e);
       }
-    if (getData){
-        const test = await axios({
-          method: 'get',
-          url: 'http://testapi.eshakti.com/mobileapi/user/details',
-          headers: {'Authorization': 'Basic '+ getData},
-        })
-        .then((test) =>{
-          console.log('userLogged in');
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
-      
-    }else{
-      const response = await axios({
-        method: 'post',
-        url: 'http://testapi.eshakti.com/mobileapi/user/login',
-        data: {
-          "username": email.value,
-          "password": password.value
-        }
-      })
-      .then(async (response) => {
-        console.log(response);
-        const authToken = response.data.data;
-        try {
-            await AsyncStorage.setItem('authToken', authToken)
-            console.log("done");
-          } catch(e) {
-            // save error
-            console.log(e);
-          }
-        const resp = await axios({
-          method: 'get',
-          url: 'http://testapi.eshakti.com/mobileapi/user/details',
-          headers: {'Authorization': 'Basic '+ authToken},
-        })
-        .then((resp) =>{
-          console.log('userLogged in');
-          navigation.navigate('Dashboard');
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
-        //CommonFunction();
-      }, (error) => {
-        console.log(error);
-        setError(error);
-      });
-    }
-    
 
     // if (response && response.error) {
     //   setError(response.error);
