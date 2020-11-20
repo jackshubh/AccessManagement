@@ -18,68 +18,68 @@ import DropDownPicker from 'react-native-vector-icons/Feather';
 import PickerEx from '../components/PickerEx'
 
 const AssignPermissionScreen = ({ navigation }) => {
-    const [name, setName] = useState({ value: "", error: "" });
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [saved, setSaved] = useState(false);
-    const [selectedUsers, setSelectedUsers] = useState([]);
-    const [selectedService, setSelectedService] = useState("");
-    const users = ['Sriram R','Alagu Sundaram','Aravind S','Chethan S','Kalaiselvan B','Parthasarathy Ganeshan','Parthiban','Vignesh Kanna K','Vignesh Rs','Vijayanaranayan','Vimal Arockia','Shubham Saraswat'];
-    const service = ['Production Server', 'Pre-Production Server','Staging Server','AWS','Backened Service'];
-    var database = firebase.database();
+  const [name, setName] = useState({ value: "", error: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedService, setSelectedService] = useState("");
+  const users = ['Sriram R', 'Alagu Sundaram', 'Aravind S', 'Chethan S', 'Kalaiselvan B', 'Parthasarathy Ganeshan', 'Parthiban', 'Vignesh Kanna K', 'Vignesh Rs', 'Vijayanaranayan', 'Vimal Arockia', 'Shubham Saraswat'];
+  const service = ['Production Server', 'Pre-Production Server', 'Staging Server', 'AWS', 'Backened Service'];
+  var database = firebase.database();
 
-    const _onUserSelectionsChange = (selectedUsers) => {
-        setSelectedUsers([...selectedUsers])
+  const _onUserSelectionsChange = (selectedUsers) => {
+    setSelectedUsers([...selectedUsers])
+  }
+  const _onServiceSelectionsChange = (selectedService) => {
+    setSelectedService([...selectedService])
+  }
+
+  const _SaveOnPressed = async () => {
+    //if (saved) return;
+
+    if (selectedUsers.length == 0) {
+      Alert.alert("Select Atleast one or cancel it");
+      return;
     }
-    const _onServiceSelectionsChange = (selectedService) => {
-        setSelectedService([...selectedService])
-    }
-  
-    const _SaveOnPressed = async () => {
-      //if (saved) return;
-      
-      if (selectedUsers.length==0) {
-        Alert.alert("Select Atleast one or cancel it");
-        return;
-      }
-      // http://testapi.eshakti.com/mobileapi/user/login request body username: email password: string
-      // response with a token 
-      // vigneshK@eshakti.com demo1234
-      // save the token 
-      // check the available option for saving info
-      // Role is label availabe service a list read or write 
-      // Product microservice read the write (link)(button to find the health check up) 
-      // when I click on the service link I should show shut it down button and restart button and start button when it is already up
-      
-      setSaved(true);
-      //   const response = await signInUser({
-      //     name: name.value,
-      //     email: email.value,
-      //     password: password.value
-      //   });
-  
-      // if (response.error) {
-      //   setError(response.error);
-      // }
-  
-      setSaved(false);
-    };
-  
-    return (
-      <Background>
-        <BackButton goBack={() => navigation.navigate("AdminScreen")} />
-        <Header>Assign Permission Page</Header>
-        <Logo />
-        {/* <PickerEx /> */}
-        <TextInput
-          label="Service Name"
-          returnKeyType="next"
-          value={name.value}
-          onChangeText={text => setName({ value: text, error: "" })}
-          error={!!name.error}
-          errorText={name.error}
-        />
-        {/* <CustomMultiPicker
+    // http://testapi.eshakti.com/mobileapi/user/login request body username: email password: string
+    // response with a token 
+    // vigneshK@eshakti.com demo1234
+    // save the token 
+    // check the available option for saving info
+    // Role is label availabe service a list read or write 
+    // Product microservice read the write (link)(button to find the health check up) 
+    // when I click on the service link I should show shut it down button and restart button and start button when it is already up
+
+    setSaved(true);
+    //   const response = await signInUser({
+    //     name: name.value,
+    //     email: email.value,
+    //     password: password.value
+    //   });
+
+    // if (response.error) {
+    //   setError(response.error);
+    // }
+
+    setSaved(false);
+  };
+
+  return (
+    <Background>
+      <BackButton goBack={() => navigation.navigate("AdminScreen")} />
+      <Header>Assign Permission Page</Header>
+      <Logo />
+      {/* <PickerEx /> */}
+      <TextInput
+        label="Service Name"
+        returnKeyType="next"
+        value={name.value}
+        onChangeText={text => setName({ value: text, error: "" })}
+        error={!!name.error}
+        errorText={name.error}
+      />
+      {/* <CustomMultiPicker
         options={service}
         search={false} // should show search bar?
         multiple={false} //
@@ -97,7 +97,7 @@ const AssignPermissionScreen = ({ navigation }) => {
         scrollViewHeight={200}
         selected={[1,2]} // list of options which are selected by default
         /> */}
-        {/* <View>
+      {/* <View>
             <ScrollView>
                 <SelectMultiple
                 items={users}
@@ -124,14 +124,14 @@ const AssignPermissionScreen = ({ navigation }) => {
           // })}
       /> */}
 
-        <CustomMultiPicker
+      <CustomMultiPicker
         options={users}
         search={false} // should show search bar?
         multiple={true} //
         placeholder={"Search"}
         placeholderTextColor={'#757575'}
         returnValue={"label"} // label or value
-        callback={(res)=>{ _onUserSelectionsChange }} // callback, array of selected items
+        callback={(res) => { _onUserSelectionsChange }} // callback, array of selected items
         rowBackgroundColor={"#fff"}
         rowHeight={40}
         rowRadius={5}
@@ -140,12 +140,12 @@ const AssignPermissionScreen = ({ navigation }) => {
         selectedIconName={"ios-checkmark-circle-outline"}
         //unselectedIconName={"ios-radio-button-off-outline"}
         scrollViewHeight={200}
-        selected={[1,2]} // list of options which are selected by default
-        />
-        
-        
-  
-        {/* <TextInput
+        selected={[1, 2]} // list of options which are selected by default
+      />
+
+
+
+      {/* <TextInput
           label="Email"
           returnKeyType="next"
           value={email.value}
@@ -157,8 +157,8 @@ const AssignPermissionScreen = ({ navigation }) => {
           textContentType="emailAddress"
           keyboardType="email-address"
         /> */}
-  
-        {/* <TextInput
+
+      {/* <TextInput
           label="Password"
           returnKeyType="done"
           value={password.value}
@@ -168,43 +168,43 @@ const AssignPermissionScreen = ({ navigation }) => {
           secureTextEntry
           autoCapitalize="none"
         /> */}
-  
-        <Button
-          loading={loading}
-          mode="contained"
-          onPress={_SaveOnPressed}
-          style={styles.button}
-        >
-          Assign Permission
+
+      <Button
+        loading={loading}
+        mode="contained"
+        onPress={_SaveOnPressed}
+        style={styles.button}
+      >
+        Assign Permission
         </Button>
-  
-        {/* <View style={styles.row}>
+
+      {/* <View style={styles.row}>
           <Text style={styles.label}>Already have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
             <Text style={styles.link}>Login</Text>
           </TouchableOpacity>
         </View>
         */}
-        <Toast message={error} onDismiss={() => setError("")} />
-      </Background>
-    );
-  };
-  
-  const styles = StyleSheet.create({
-    // label: {
-    //   color: theme.colors.secondary
-    // },
-    // button: {
-    //   marginTop: 24
-    // },
-    // row: {
-    //   flexDirection: "row",
-    //   marginTop: 4
-    // },
-    // link: {
-    //   fontWeight: "bold",
-    //   color: theme.colors.primary
-    // }
-  });
-  
-  export default memo(AssignPermissionScreen);
+      <Toast message={error} onDismiss={() => setError("")} />
+    </Background>
+  );
+};
+
+const styles = StyleSheet.create({
+  // label: {
+  //   color: theme.colors.secondary
+  // },
+  // button: {
+  //   marginTop: 24
+  // },
+  // row: {
+  //   flexDirection: "row",
+  //   marginTop: 4
+  // },
+  // link: {
+  //   fontWeight: "bold",
+  //   color: theme.colors.primary
+  // }
+});
+
+export default memo(AssignPermissionScreen);

@@ -9,7 +9,8 @@ import { FIREBASE_CONFIG } from "../core/config";
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
 
-const AuthLoadingScreen = ({ navigation }) => {  firebase.auth().onAuthStateChanged(user => {
+const AuthLoadingScreen = ({ navigation }) => {
+  firebase.auth().onAuthStateChanged(user => {
     if (user) {
       // User is logged in
       navigation.navigate("Dashboard");

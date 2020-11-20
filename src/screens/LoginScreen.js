@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View} from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -14,55 +14,21 @@ import firebase from "firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// const uiconfig = {
-//   signInFlow : "popup",
-//   // signInSuccessUrl: navigation.navigate("Dashboard"),
-//   signInOptions : [
-//     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-//   ],
-//   callbacks : {
-//     signInSuccess : () => false,
-//   }
-// };
+import { TokenEndPoint, UserInfoEndPoint, UserInfoData } from '../api/ApiWrapper';
 
 const LoginScreen = ({ navigation }) => {
-  useEffect(() => {
-    const authUser = firebase.auth().onAuthStateChanged((user) => {
-      setUser(user);
-    });
-    return authUser;
-  });
+  // useEffect(() => {
+  //   const authUser = firebase.auth().onAuthStateChanged((user) => {
+  //     setUser(user);
+  //   });
+  //   return authUser;
+  // });
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // const _onGPressed = async () => {
-  //   if (loading) return;
-  //   setLoading(true);
-  //   const response = await signInWithGoogle();
-  //   if (response.error) {
-  //     setError(response.error);
-  //   }
-  //   setLoading(false);
-  // };
-  const CommonFunction = async (authToken) =>{
-    return(
-      await axios({
-      method: 'get',
-      url: 'http://testapi.eshakti.com/mobileapi/user/details',
-      headers: {'Authorization': 'Basic '+ authToken},
-    })
-    .then((response) =>{
-      console.log('userLogged in');
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-    )
-  }
   const _onLoginPressed = async () => {
     if (loading) return;
 
@@ -82,70 +48,37 @@ const LoginScreen = ({ navigation }) => {
     //   password: password.value
     // });
 
-      try {
-        let getData =  await AsyncStorage.getItem('authToken');
-        if (getData){
-          const test = await axios({
-            method: 'get',
-            url: 'http://testapi.eshakti.com/mobileapi/user/details',
-            headers: {'Authorization': 'Basic '+ getData},
-          })
-          .then((test) =>{
-            console.log('userLogged in');
-          })
-          .catch((error)=>{
-            console.log(error);
-          })
-        
-      }else{
-        const response = await axios({
-          method: 'post',
-          url: 'http://testapi.eshakti.com/mobileapi/user/login',
-          data: {
-            "username": email.value,
-            "password": password.value
-          }
-        })
+    try {
+      const response = await axios({
+        method: 'post',
+        url: TokenEndPoint.baseURL,
+        data: {
+          "username": email.value,
+          "password": password.value
+        }
+      })
         .then(async (response) => {
           console.log(response);
           const authToken = response.data.data;
-          const storeData = async () => {
-            try {
-              await AsyncStorage.setItem('authToken', authToken)
-              console.log("done");
-            } catch(e) {
-              // save error
-              console.log(e);
-            }
-          }
-          const temp = await storeData();
-          const resp = await axios({
-            method: 'get',
-            url: 'http://testapi.eshakti.com/mobileapi/user/details',
-            headers: {'Authorization': 'Basic '+ authToken},
-          })
-          .then((resp) =>{
-            console.log('userLogged in');
-            navigation.navigate('Dashboard');
-          })
-          .catch((error)=>{
-            console.log(error);
-          })
-          //CommonFunction();
+          console.log(authToken);
+          const respnse = await AsyncStorage.setItem('authToken', authToken)
+            .then((respnse) => {
+              console.log(respnse);
+            });
+          console.log('userLogged in');
+          navigation.navigate('Dashboard');
         }, (error) => {
           console.log(error);
           setError(error);
         });
-      }
-      } catch(e) {
-        // read error
-        console.log(e);
-      }
-
+    }
+    catch (e) {
+      console.log(e);
+    }
     // if (response && response.error) {
     //   setError(response.error);
     // }
-//'BAC399C194A57F4B793577876974BD8EF47308EE7CF9118951C44B18999A3C9B28EEE7FACCEDD1BB781324B9F39459E16D72B6CD52EDF3EE93CDA9E67686DC34547211AA70C36C406694006E02480B0C5CBDD7581E769A2DCBC0566CF8118F61AF1E7F55232A290882081B5AF7243629'
+    //'BAC399C194A57F4B793577876974BD8EF47308EE7CF9118951C44B18999A3C9B28EEE7FACCEDD1BB781324B9F39459E16D72B6CD52EDF3EE93CDA9E67686DC34547211AA70C36C406694006E02480B0C5CBDD7581E769A2DCBC0566CF8118F61AF1E7F55232A290882081B5AF7243629'
     setLoading(false);
   };
 

@@ -49,14 +49,14 @@ const RegisterScreen = ({ navigation }) => {
       setError(response.error);
     }
 
-    firebase.database().ref('users/'+name.value).set({
+    firebase.database().ref('users/' + name.value).set({
       name: name.value,
       email: email.value,
       admin: false,
 
-    }).then(() =>{
+    }).then(() => {
       console.log('User Created');
-    }).catch((error) =>{
+    }).catch((error) => {
       console.log('User not Created ' + error);
     })
 
