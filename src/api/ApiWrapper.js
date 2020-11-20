@@ -28,7 +28,7 @@ export const UserInfoData = async (authToken) => {
 
 // export const storeData = async (authToken) => {
 //     try {
-//         await AsyncStorage.setItem('authToken', authToken)
+//         await AsyncStorage.setItem('@authToken', authToken)
 //         console.log("done");
 //     } catch (e) {
 //         // save error
@@ -39,7 +39,7 @@ export const UserInfoData = async (authToken) => {
 // export const getAuthToken = async () => {
 //     try {
 //         return (
-//             await AsyncStorage.getItem('authToken')
+//             await AsyncStorage.getItem('@authToken')
 //         )
 //     }
 //     catch (e) {

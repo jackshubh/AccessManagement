@@ -61,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
           console.log(response);
           const authToken = response.data.data;
           console.log(authToken);
-          const respnse = await AsyncStorage.setItem('authToken', authToken)
+          const respnse = await AsyncStorage.setItem('@authToken', authToken)
             .then((respnse) => {
               console.log(respnse);
             });

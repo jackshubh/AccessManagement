@@ -9,7 +9,7 @@ import { auth } from "firebase";
 
 const HomeScreen = ({ navigation }) => {
   //const authToken = async () => getAuthToken();
-  const authToken = async () => await AsyncStorage.getItem('authToken');
+  const authToken = async () => await AsyncStorage.getItem('@authToken');
   useEffect(() => {
     if (authToken) {
 
