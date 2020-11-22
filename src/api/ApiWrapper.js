@@ -9,7 +9,8 @@ export const TokenEndPoint = {
 export const UserInfoEndPoint = {
     baseURL: 'http://testapi.eshakti.com/mobileapi/details',
 }
-
+// I spoke to v2 and showed my code 
+// and he gave me comments on the code so I'm working on those points
 export const UserInfoData = async (authToken) => {
     return (
         await axios({

@@ -1,24 +1,18 @@
 import React, { memo } from "react";
 import { ActivityIndicator } from "react-native";
-import firebase from "firebase/app";
-import "firebase/auth";
 import Background from "../components/Background";
 import { theme } from "../core/theme";
-import { FIREBASE_CONFIG } from "../core/config";
-
-// Initialize Firebase
-firebase.initializeApp(FIREBASE_CONFIG);
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthLoadingScreen = ({ navigation }) => {
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      // User is logged in
-      navigation.navigate("Dashboard");
-    } else {
-      // User is not logged in
-      navigation.navigate("HomeScreen");
-    }
-  });
+  const authToken = async () => await AsyncStorage.getItem('@authToken');
+  if (authToken) {
+    // User is logged in
+    navigation.navigate("Dashboard");
+  } else {
+    // User is not logged in
+    navigation.navigate("HomeScreen");
+  }
 
   return (
     <Background>

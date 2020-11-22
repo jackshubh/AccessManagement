@@ -8,15 +8,6 @@ import { getAuthToken } from '../api/ApiWrapper';
 import { auth } from "firebase";
 
 const HomeScreen = ({ navigation }) => {
-  //const authToken = async () => getAuthToken();
-  const authToken = async () => await AsyncStorage.getItem('@authToken');
-  useEffect(() => {
-    if (authToken) {
-
-    } else {
-      navigation.navigate('Dashboard');
-    }
-  }, []);
   return (
     <Background>
       <Logo />
