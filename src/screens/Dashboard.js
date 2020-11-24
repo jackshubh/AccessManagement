@@ -5,29 +5,71 @@ import Header from "../components/Header";
 import Paragraph from "../components/Paragraph";
 import Button from "../components/Button";
 import { logoutUser } from "../api/auth-api";
-import firebase from "firebase"
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 //import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserInfoData } from '../api/ApiWrapper';
+import axios from 'axios';
+import { UserInfoEndPoint, UserInfoData, authToken, ListOfServices } from '../api/ApiWrapper';
+import { auth } from "firebase";
 
 const Dashboard = ({ navigation }) => {
-  const authToken = async () => await AsyncStorage.getItem('authToken');
-  useEffect(() => {
-    setUser(UserInfoData(authToken));
+  //const authToken = async () => await AsyncStorage.getItem('authToken');
+
+  const [user, setUser] = useState({
+    country: '',
+    emailId: '',
+    fullName: '',
+    isIndianUser: false,
+    mobileNumber: '',
+    userId: 0,
+    userSegment: '',
+    userType: ''
+  });
+
+  useEffect(async () => {
+    const response = await axios({
+      method: 'get',
+      url: UserInfoEndPoint.baseURL,
+      headers: { 'Authorization': 'Basic ' + authToken },
+    })
+      .then((response) => {
+        let objTemp = {};
+        objTemp = response.data.data;
+        setUser({
+          country: objTemp.country,
+          emailId: objTemp.emailId,
+          fullName: objTemp.fullName,
+          isIndianUser: objTemp.isIndianUser,
+          mobileNumber: objTemp.mobileNumber,
+          userId: objTemp.userId,
+          userSegment: objTemp.userSegment,
+          userType: objTemp.userType
+        })
+        console.log('UserInfoFetched');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
   }, [])
 
-  const [user, setUser] = useState({});
-  const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
 
-  const AdminButtonHide = ({ userType }) => {
-    if (userType && userType.data.Role !== 'Admin') return null;
-
+  const AdminButtonHide = () => {
+    if (user.userType == 'Admin') return null;
+    else {
+      return (
+        <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen", { itemId: 86, otherparams: 'anything you want here' })}>
+          Admin
+        </Button>
+      )
+    }
+  }
+  const LinkToBeDisplayed = () => {
+    const arr = async () => await ListOfServices();
     return (
-      <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen")}>
-        Admin
-      </Button>
+      <View>
+
+      </View>
     )
   }
 
@@ -44,16 +86,13 @@ const Dashboard = ({ navigation }) => {
         <Logo />
 
 
-        {/* <Paragraph>
-              {if (!firebase.auth().currentUser) {
-                // User is logged in
-                firebase.auth().currentUser.uid
-              }}
-        </Paragraph> */}
+        <Paragraph>
+          {user.fullName}
+        </Paragraph>
         <Button mode="outlined" onPress={() => logoutUser()}>
           Logout
         </Button>
-        <AdminButtonHide userType={"Customer"} />{/*Customer is only for test purpose */}
+        <AdminButtonHide />{/*Customer is only for test purpose */}
         {/* <Button mode="outlined" onPress={() => navigation.navigate("AdminScreen")}>
           Admin
         </Button> */}

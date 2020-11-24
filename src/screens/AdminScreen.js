@@ -13,11 +13,17 @@ import {
 import Toast from "../components/Toast";
 import firebase from "firebase";
 
-const AdminScreen = ({ navigation }) => {
+const AdminScreen = ({ route, navigation }) => {
+
   const [name, setName] = useState({ value: "", error: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ value: "", type: "" });
+
+  // useEffect(() => {
+  //   console.log('Test');
+  //   const { itemId, otherParam } = route.params;
+  // }, [])
 
   const _AddServiceOnPressed = async () => {
     if (loading) return;

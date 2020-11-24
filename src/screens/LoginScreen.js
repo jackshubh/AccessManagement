@@ -61,6 +61,17 @@ const LoginScreen = ({ navigation }) => {
           console.log(response);
           const authToken = response.data.data;
           console.log(authToken);
+          const re = await axios({
+            method: 'get',
+            url: UserInfoEndPoint.baseURL,
+            headers: { 'Authorization': 'Basic ' + authToken },
+          })
+            .then((re) => {
+              console.log('UserInfoFetched');
+            })
+            .catch((error) => {
+              console.log(error);
+            })
           const respnse = await AsyncStorage.setItem('@authToken', authToken)
             .then((respnse) => {
               console.log(respnse);

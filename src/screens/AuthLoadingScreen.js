@@ -3,9 +3,10 @@ import { ActivityIndicator } from "react-native";
 import Background from "../components/Background";
 import { theme } from "../core/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authToken } from '../api/ApiWrapper';
 
 const AuthLoadingScreen = ({ navigation }) => {
-  const authToken = async () => await AsyncStorage.getItem('@authToken');
+  //const authToken = async () => await AsyncStorage.getItem('@authToken');
   if (authToken) {
     // User is logged in
     navigation.navigate("Dashboard");

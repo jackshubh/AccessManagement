@@ -3,10 +3,11 @@ import "firebase/auth";
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
-export const logoutUser = () => {
+export const logoutUser = ({navigation}) => {
   //firebase.auth().signOut();
   localStorage.clear();
   window.location.href = '/';
+  navigation.navigator('Da')
 };
 
 export const signInUser = async ({ name, email, password }) => {
