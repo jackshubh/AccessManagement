@@ -11,7 +11,6 @@ import {
   nameValidator
 } from "../core/utils";
 import Toast from "../components/Toast";
-import firebase from "firebase";
 
 const AdminScreen = ({ route, navigation }) => {
 
@@ -43,20 +42,20 @@ const AdminScreen = ({ route, navigation }) => {
     //     password: password.value
     //   });
 
-    const response = await (
-      firebase.database().ref('Services/' + name.value).set({
-        name: name.value
-      }).then(() => {
-        setToast({
-          type: "success",
-          value: "Service Added Successfully."
-        });
-        navigation.navigate("AssignPermissionScreen");
-      }).catch(() => {
-        setToast({ type: "error", value: response.error });
-        console.log('Service not Added ');
-      })
-    )
+    // const response = await (
+    //   firebase.database().ref('Services/' + name.value).set({
+    //     name: name.value
+    //   }).then(() => {
+    //     setToast({
+    //       type: "success",
+    //       value: "Service Added Successfully."
+    //     });
+    //     navigation.navigate("AssignPermissionScreen");
+    //   }).catch(() => {
+    //     setToast({ type: "error", value: response.error });
+    //     console.log('Service not Added ');
+    //   })
+    // )
 
     // if (response.error) {
     //   setError(response.error);

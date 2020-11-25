@@ -4,17 +4,19 @@ import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Paragraph from "../components/Paragraph";
 import Button from "../components/Button";
+import CustomList from "../components/List";
 import { logoutUser } from "../api/auth-api";
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 //import { ListItem } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DropDownPicker from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import { UserInfoEndPoint, UserInfoData, authToken, ListOfServices } from '../api/ApiWrapper';
 import { auth } from "firebase";
 
 const Dashboard = ({ navigation }) => {
   //const authToken = async () => await AsyncStorage.getItem('authToken');
-
+  const [userSelection, setUserSelection] = useState('');
   const [user, setUser] = useState({
     country: '',
     emailId: '',
@@ -53,6 +55,48 @@ const Dashboard = ({ navigation }) => {
 
   }, [])
 
+  const DATA = [
+    {
+      id: "bd7acbea-c1b1-46c2-aid5-3ad53abb28ba",
+      title: "First Item",
+    },
+    {
+      id: "3ac68afc-c605-48d3-atf8-fbd91aa97f63",
+      title: "Second Item",
+    },
+    {
+      id: "58694a0f-3da1-471f-bdu6-145571e29d72",
+      title: "Third Item",
+    },
+    {
+      id: "bd7ajbea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "Fourth Item",
+    },
+    {
+      id: "3ac6gafc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Fifth Item",
+    },
+    {
+      id: "586d4a0f-3da1-471f-bd96-145571e29d72",
+      title: "Sixth Item",
+    },
+    {
+      id: "bd7acdea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "Seventh Item",
+    },
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Eighth Item",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      title: "Ninth Item",
+    },
+  ];
+
+  const _onUserSelectionsChange = (item) => {
+    setUserSelection(item);
+  }
 
   const AdminButtonHide = () => {
     if (user.userType == 'Admin') return null;
@@ -65,7 +109,9 @@ const Dashboard = ({ navigation }) => {
     }
   }
   const LinkToBeDisplayed = () => {
-    const arr = async () => await ListOfServices();
+    // const arr = await ListOfServices().then((resp) =>{
+
+    // });
     return (
       <View>
 
@@ -89,6 +135,24 @@ const Dashboard = ({ navigation }) => {
         <Paragraph>
           {user.fullName}
         </Paragraph>
+        {/* <DropDownPicker
+          items={[
+            { label: 'USA', value: 'usa', icon: () => <Icon name="flag" size={18} color="#900" />, hidden: true },
+            { label: 'UK', value: 'uk', icon: () => <Icon name="flag" size={18} color="#900" /> },
+            { label: 'France', value: 'france', icon: () => <Icon name="flag" size={18} color="#900" /> },
+          ]}
+          defaultValue='usa'
+          containerStyle={{ height: 40 }}
+          style={{ backgroundColor: '#fafafa' }}
+          itemStyle={{
+            justifyContent: 'flex-start'
+          }}
+          dropDownStyle={{ backgroundColor: '#fafafa' }}
+          onChangeItem={(item) => { _onUserSelectionsChange(item) }}
+        /> */}
+        <CustomList>
+          {DATA}
+        </CustomList>
         <Button mode="outlined" onPress={() => logoutUser()}>
           Logout
         </Button>

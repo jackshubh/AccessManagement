@@ -3,11 +3,11 @@ import "firebase/auth";
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
-export const logoutUser = ({navigation}) => {
+export const logoutUser = ({ navigation }) => {
   //firebase.auth().signOut();
   localStorage.clear();
   window.location.href = '/';
-  navigation.navigator('Da')
+  navigation.navigator('LoginScreen');
 };
 
 export const signInUser = async ({ name, email, password }) => {
@@ -72,10 +72,10 @@ export const loginUser = async ({ email, password }) => {
 };
 
 export const signInWithGoogle = async () => {
-  try{
+  try {
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    await firebase.auth().getRedirectResult().then(function(result) {
+    await firebase.auth().getRedirectResult().then(function (result) {
       if (result.credential) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;

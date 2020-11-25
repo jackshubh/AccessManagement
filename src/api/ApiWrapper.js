@@ -87,6 +87,7 @@ export const UpdatePermissions = async (ServiceName, arrUser) => {
         method: 'post',
         url: UpdatePermissionEndPoint.baseURL,
         data: {
+            "spName": '',
             "servicename": ServiceName,
             "users": arrUser,
         }

@@ -11,7 +11,6 @@ import { emailValidator, passwordValidator } from "../core/utils";
 import { loginUser, signInWithGoogle } from "../api/auth-api";
 import Toast from "../components/Toast";
 import firebase from "firebase";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TokenEndPoint, UserInfoEndPoint, UserInfoData } from '../api/ApiWrapper';

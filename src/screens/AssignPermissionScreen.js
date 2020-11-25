@@ -11,14 +11,19 @@ import {
   nameValidator
 } from "../core/utils";
 import Toast from "../components/Toast";
+import { CheckBox, ListItem, Icon } from 'react-native-elements'
 import SelectMultiple from 'react-native-select-multiple';
 import CustomMultiPicker from "react-native-multiple-select-list";
-import firebase from 'firebase';
+//import CustomMultiPicker from '../component/CustomMultiSelectList';
+
+
 import DropDownPicker from 'react-native-vector-icons/Feather';
 import PickerEx from '../components/PickerEx'
+import axios from "axios";
+import { UpdatePermissions } from '../api/ApiWrapper';
 
 const AssignPermissionScreen = ({ navigation }) => {
-  const [name, setName] = useState({ value: "", error: "" });
+  const [Servicename, setServiceName] = useState({ value: "", error: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -26,43 +31,39 @@ const AssignPermissionScreen = ({ navigation }) => {
   const [selectedService, setSelectedService] = useState("");
   const users = ['Sriram R', 'Alagu Sundaram', 'Aravind S', 'Chethan S', 'Kalaiselvan B', 'Parthasarathy Ganeshan', 'Parthiban', 'Vignesh Kanna K', 'Vignesh Rs', 'Vijayanaranayan', 'Vimal Arockia', 'Shubham Saraswat'];
   const service = ['Production Server', 'Pre-Production Server', 'Staging Server', 'AWS', 'Backened Service'];
-  var database = firebase.database();
 
-  const _onUserSelectionsChange = (selectedUsers) => {
-    setSelectedUsers([...selectedUsers])
-  }
-  const _onServiceSelectionsChange = (selectedService) => {
-    setSelectedService([...selectedService])
+  const list = [
+    {
+      title: 'Appointments',
+      icon: 'av-timer'
+    },
+    {
+      title: 'Trips',
+      icon: 'flight-takeoff'
+    },
+  ]
+
+  const _onUserSelectionsChange = (use) => {
+    setSelectedUsers([...use])
   }
 
   const _SaveOnPressed = async () => {
-    //if (saved) return;
+    if (loading) return;
 
+    setLoading(true);
     if (selectedUsers.length == 0) {
       Alert.alert("Select Atleast one or cancel it");
       return;
+    } else {
+      UpdatePermissions(Servicename, selectedUsers)
+        .then(() => {
+          navigation.navigate('AdminScreen');
+        }).catch((error) => {
+          console.log(error);
+        });
+
     }
-    // http://testapi.eshakti.com/mobileapi/user/login request body username: email password: string
-    // response with a token 
-    // vigneshK@eshakti.com demo1234
-    // save the token 
-    // check the available option for saving info
-    // Role is label availabe service a list read or write 
-    // Product microservice read the write (link)(button to find the health check up) 
-    // when I click on the service link I should show shut it down button and restart button and start button when it is already up
-
-    setSaved(true);
-    //   const response = await signInUser({
-    //     name: name.value,
-    //     email: email.value,
-    //     password: password.value
-    //   });
-
-    // if (response.error) {
-    //   setError(response.error);
-    // }
-
-    setSaved(false);
+    setLoading(false);
   };
 
   return (
@@ -74,10 +75,10 @@ const AssignPermissionScreen = ({ navigation }) => {
       <TextInput
         label="Service Name"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={text => setName({ value: text, error: "" })}
-        error={!!name.error}
-        errorText={name.error}
+        value={Servicename.value}
+        onChangeText={text => setServiceName({ value: text, error: "" })}
+        error={!!Servicename.error}
+        errorText={Servicename.error}
       />
       {/* <CustomMultiPicker
         options={service}
@@ -131,17 +132,39 @@ const AssignPermissionScreen = ({ navigation }) => {
         placeholder={"Search"}
         placeholderTextColor={'#757575'}
         returnValue={"label"} // label or value
-        callback={(res) => { _onUserSelectionsChange }} // callback, array of selected items
+        callback={(res) => { _onUserSelectionsChange(res) }} // callback, array of selected items
         rowBackgroundColor={"#fff"}
         rowHeight={40}
-        rowRadius={5}
+        rowRadius={30}
         iconColor={"#00a2dd"}
         iconSize={15}
         selectedIconName={"ios-checkmark-circle-outline"}
         //unselectedIconName={"ios-radio-button-off-outline"}
-        scrollViewHeight={200}
-        selected={[1, 2]} // list of options which are selected by default
+        scrollViewHeight={300}
+      //selected={[1, 2]} // list of options which are selected by default
       />
+
+
+      {/* <View>
+        {
+          list.map((item, i) => (
+            <ListItem key={i} bottomDivider>
+              <CheckBox
+                right
+                title='Click Here'
+                checkedIcon='dot-circle-o'
+                uncheckedIcon='circle-o'
+                checked={check}
+                onPress={() => _onUserSelectionsChange(item)}
+              />
+              <ListItem.Content>
+                <ListItem.Title>{item.title}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          ))
+        }
+      </View> */}
 
 
 
